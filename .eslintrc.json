@@ -1,0 +1,40 @@
+{
+	"plugins": ["@typescript-eslint", "react"],
+	"env": {
+		"browser": true,
+		"es6": true,
+		"node": true
+	},
+	"extends": [
+		"eslint:recommended",
+		"plugin:@typescript-eslint/eslint-recommended",
+		"plugin:@typescript-eslint/recommended",
+		"plugin:import/recommended",
+		"plugin:import/electron",
+		"plugin:import/typescript"
+	],
+	"parser": "@typescript-eslint/parser",
+	"settings": {
+		"react": {
+			"pragma": "React",
+			"version": "detect"
+		}
+	},
+	"rules": {
+		"max-len": [1, 1200, 2, { "ignoreComments": true, "code": 1200 }],
+		"no-console": [1],
+		"no-unused-vars": [0],
+		"no-useless-escape": [0],
+		"react/no-unescaped-entities": [1],
+		"react/display-name": 0,
+		"no-loop-func": [1],
+		"indent": 0,
+		"linebreak-style": ["error", "unix"],
+		"quotes": ["error", "single"],
+		"semi": ["error", "always"],
+		"no-class-assign": [0],
+		"react/jsx-key": [1],
+		"react/prop-types": [1],
+		"no-mixed-spaces-and-tabs": [0]
+	}
+}
