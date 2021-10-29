@@ -9,7 +9,7 @@ interface ButtonTheme {
 	close: string;
 }
 
-declare module '@material-ui/core/styles' {
+declare module '@mui/material/styles' {
 	interface Theme {
 		status: StatusTheme;
 		buttons: ButtonTheme;
@@ -21,12 +21,13 @@ declare module '@material-ui/core/styles' {
 	}
 }
 
-import { amber, green, grey, orange, red } from '@material-ui/core/colors/';
-import { createTheme } from '@material-ui/core/styles';
+import { amber, green, grey, orange, red } from '@mui/material/colors';
+// import { createTheme } from '@material-ui/core/styles';
+import { createTheme } from '@mui/material/styles';
 
 export default createTheme({
 	palette: {
-		type: 'dark',
+		mode: 'dark',
 		primary: {
 			main: grey[600],
 		},

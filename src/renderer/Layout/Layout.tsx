@@ -14,6 +14,7 @@ const styles = (theme: Theme) =>
 			display: 'flex',
 			backgroundColor: theme.palette.background.default,
 			height: '100vh',
+			machin: 'truc',
 		},
 		mainPage: {
 			position: 'absolute',

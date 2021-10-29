@@ -12,7 +12,7 @@ const mainRoutes = [
 	{
 		path: '/',
 		// component: OnGoingPage,
-		component: Test2Page,
+		component: Test1Page,
 	},
 ];
 
