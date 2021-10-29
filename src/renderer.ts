@@ -49,5 +49,8 @@ declare global {
 		ipcApi: {
 			downloadControl: IElectronAPI<DownloadEventToFront, DownloadEventFromFront>;
 		};
+		types: {
+			DownloadInfo: DownloadInfo;
+		};
 	}
 }

@@ -14,12 +14,11 @@ type ReturnParameter<EventFromFrontType> = {
 abstract class IPCApi<EventFromFront extends EventDescription, EventToFront extends EventDescription>
 	implements Emitter<EventFromFront>
 {
-	// export default class IPCApi {
 	apiName: string = 'api';
 	eventEmitter: EventEmitter<EventFromFront>;
-	// validSendChannels: SendChannels = {};
 	validSendChannels: string[] = [];
 	validReceiveChannels: string[] = [];
+	mainWindow: BrowserWindow;
 
 	constructor(apiName: string, validSendChannels: string[], validReceiveChannels: string[]) {
 		this.apiName = apiName;
@@ -30,9 +29,10 @@ abstract class IPCApi<EventFromFront extends EventDescription, EventToFront exte
 
 	initIpcMain(ipcMain: IpcMain, mainWindow: BrowserWindow) {
 		if (mainWindow) {
+			this.mainWindow = mainWindow;
 			for (let channel of this.validSendChannels) {
 				ipcMain.on(`${this.apiName}+${channel}`, async (event: any, message: any) => {
-					this.emitInternal(channel, { mainWindow, event, message });
+					this.emit(channel, message);
 				});
 			}
 		}
@@ -50,13 +50,9 @@ abstract class IPCApi<EventFromFront extends EventDescription, EventToFront exte
 
 	emit<Key extends EventKey<EventFromFront>>(key: Key, data: EventFromFront[Key]) {
 		this.eventEmitter.emit(key, data);
-		// this.eventEmitter.emit(key, data);
 	}
-
-	protected abstract emitInternal(key: any, toSend: any): void;
-
-	sendToRender<Key extends EventKey<EventToFront>>(mainWindow: BrowserWindow, channel: Key, arg: EventToFront[Key]) {
-		mainWindow.webContents.send(`${this.apiName}+${channel}`, arg);
+	sendToRender<Key extends EventKey<EventToFront>>(channel: Key, arg: EventToFront[Key]) {
+		this.mainWindow.webContents.send(`${this.apiName}+${channel}`, arg);
 	}
 }
 

@@ -1,4 +1,3 @@
-import OnGoingPage from '../views/OnGoing/OnGoingPage';
 import Test1Page from '../views/Test/TestPage1';
 import Test2Page from '../views/Test/TestPage2';
 const mainRoutes = [
@@ -12,7 +11,8 @@ const mainRoutes = [
 	},
 	{
 		path: '/',
-		component: OnGoingPage,
+		// component: OnGoingPage,
+		component: Test2Page,
 	},
 ];
 

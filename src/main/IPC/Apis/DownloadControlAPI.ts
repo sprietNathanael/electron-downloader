@@ -1,30 +1,38 @@
-import { EventKey } from '../../../utils/EventEmitter';
 // import { IPCApi, ReturnParameter } from '../IPCApi';
-import { IPCApi, ReturnParameter } from '../IPCApi';
+// // import { IPCApi, ReturnParameter } from '../IPCApi';
+// type DownloadInfo = {
+// 	url: string;
+// 	localPath: string;
+// };
+import DownloadEntry from '../../../Common/DownloadEntry';
+// import { IPCApi, ReturnParameter } from '/main/IPC/IPCApi';
+import { IPCApi } from '../IPCApi';
 
 const apiName = 'downloadControl';
 
 // ====================== This is the renderer side
 // to Main
-const validSendChannels = { beginDownload: '' };
+const validSendChannels = ['beginDownload', 'pauseDownload', 'resumeDownload'];
 
 // from Main
-// const validReceiveChannels = ['downloadProgress'] as const;
-const validReceiveChannels = { downloadProgress: { url: '', progress: 0 } };
-type DownloadEventFromFront = typeof validSendChannels;
-
-type DownloadEventDescription = {
-	beginDownload: ReturnParameter<typeof validSendChannels.beginDownload>;
+const validReceiveChannels = ['downloadRegistered', 'downloadInfoUpdate', 'downloadProgressUpdate', 'donwloadFinished'];
+type DownloadEventFromFront = {
+	beginDownload: { url: string; localPath: string };
+	pauseDownload: string;
+	resumeDownload: string;
 };
 
-// type DownloadEventToFront = typeof validReceiveChannels[number];
-type DownloadEventToFront = typeof validReceiveChannels;
-// type EventToFront = 'downloadProgress';
+type DownloadEventToFront = {
+	downloadRegistered: DownloadEntry;
+	downloadProgressUpdate: DownloadEntry;
+	downloadInfoUpdate: DownloadEntry;
+	downloadFinished: DownloadEntry;
+};
 
-class DownloadControlAPI extends IPCApi<DownloadEventDescription, DownloadEventToFront> {
+class DownloadControlAPI extends IPCApi<DownloadEventFromFront, DownloadEventToFront> {
 	private static instance: DownloadControlAPI;
 	private constructor() {
-		super(apiName, Object.keys(validSendChannels), Object.keys(validReceiveChannels));
+		super(apiName, validSendChannels, validReceiveChannels);
 	}
 	public static getInstance(): DownloadControlAPI {
 		if (!DownloadControlAPI.instance) {
@@ -32,10 +40,6 @@ class DownloadControlAPI extends IPCApi<DownloadEventDescription, DownloadEventT
 		}
 
 		return DownloadControlAPI.instance;
-	}
-
-	emitInternal<Key extends EventKey<DownloadEventDescription>>(key: Key, toSend: DownloadEventDescription[Key]) {
-		this.emit(key, toSend);
 	}
 }
 export { DownloadControlAPI, DownloadEventToFront, DownloadEventFromFront };

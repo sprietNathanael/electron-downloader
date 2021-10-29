@@ -1,3 +1,4 @@
+import { Typography } from '@material-ui/core';
 import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
@@ -12,7 +13,7 @@ class Test2 extends React.Component<ComponentProps, ComponentState> {
 	render() {
 		return (
 			<div>
-				Test 2 <button onClick={this.goToPage1}>Test1</button>
+				<Typography color='inherit'>Test 2</Typography> <button onClick={this.goToPage1}>Test1</button>
 			</div>
 		);
 	}
