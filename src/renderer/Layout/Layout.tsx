@@ -1,37 +1,18 @@
-import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core';
+// import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core';
+// import { withStyles } from '@renderer/makeStyles';
 import React from 'react';
+import { withTranslation, WithTranslation } from 'react-i18next';
 import { HashRouter, Route, Switch } from 'react-router-dom';
+import { GlobalStyles } from 'tss-react';
+import { withStyles } from '../makeStyles';
 import mainRoutes from '../routes/mainRoutes';
 
-const styles = (theme: Theme) =>
-	createStyles({
-		'@global': {
-			'.success': {
-				color: 'green',
-			},
-		},
-		app: {
-			display: 'flex',
-			backgroundColor: theme.palette.background.default,
-			height: '100vh',
-			machin: 'truc',
-		},
-		mainPage: {
-			position: 'absolute',
-			width: '100%',
-			// top: '29px',
-			height: '100vh',
-			// height: 'calc(100vh - 29px)',
-			// flexGrow: 1,
-			// paddingBottom: 0,
+interface ComponentProps extends WithTranslation {
+	theme?: any;
+	classes?: any;
+}
 
-			// height: '97vh',
-			// overflowY: 'auto',
-			overflow: 'hidden',
-		},
-	});
-
-type ComponentProps = WithStyles<typeof styles>;
+// type ComponentProps = WithStyles<typeof styles>;
 
 type ComponentState = Record<string, never>;
 
@@ -61,6 +42,14 @@ class App extends React.Component<ComponentProps, ComponentState> {
 		const { classes } = this.props;
 		return (
 			<div className={classes.app}>
+				<GlobalStyles
+					styles={{
+						'.success': {
+							color: this.props.theme.status.success,
+							// color: 'green',
+						},
+					}}
+				/>
 				{/* <TitleBar /> */}
 				<div className={classes.mainPage}>
 					<HashRouter>{this.switchRoutes({})}</HashRouter>
@@ -70,4 +59,28 @@ class App extends React.Component<ComponentProps, ComponentState> {
 	}
 }
 
-export default withStyles(styles)(App);
+// export default withStyles(styles)(App);
+
+export default withTranslation()(
+	withStyles(App, (theme) => ({
+		app: {
+			display: 'flex',
+			backgroundColor: theme.palette.background.default,
+			height: '100vh',
+			machin: 'truc',
+		},
+		mainPage: {
+			position: 'absolute',
+			width: '100%',
+			// top: '29px',
+			height: '100vh',
+			// height: 'calc(100vh - 29px)',
+			// flexGrow: 1,
+			// paddingBottom: 0,
+
+			// height: '97vh',
+			// overflowY: 'auto',
+			overflow: 'hidden',
+		},
+	}))
+);

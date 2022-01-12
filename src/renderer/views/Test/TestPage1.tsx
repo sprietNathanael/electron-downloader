@@ -1,48 +1,27 @@
-// import { Button, createStyles, Grid, Theme, Typography, withStyles, WithStyles } from '@material-ui/core';
-// import {createStyles, Theme, withStyles, WithStyles } from '@mui/material/styles';
 import { Button, Grid, Typography } from '@mui/material/';
-import { SxProps } from '@mui/system';
 import { Tractor } from 'mdi-material-ui';
 import React from 'react';
+import { withTranslation, WithTranslation } from 'react-i18next';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { withStyles } from '../../makeStyles';
 
-// const styles = (theme: Theme) =>
-// 	createStyles({
-// 		error: {
-// 			color: 'red',
-// 		},
-// 		machin: {
-// 			color: theme.status.success,
-// 		},
-// 	});
-
-const classes: Record<string, SxProps> = {
-	error: {
-		color: 'red',
-	},
-	machin: {
-		color: 'blue',
-	},
-};
-// interface ComponentProps extends RouteComponentProps, WithStyles<typeof styles> {
-// 	test: string;
-// }
-
+interface ComponentProps extends WithTranslation, RouteComponentProps {
+	classes?: any;
+}
 type ComponentState = Record<string, never>;
 
-// class Test1 extends React.Component<ComponentProps, ComponentState> {
-class Test1 extends React.Component<RouteComponentProps, ComponentState> {
+class Test1 extends React.Component<ComponentProps, ComponentState> {
 	goToPage2 = () => {
 		this.props.history.push('/test2');
 	};
 	render() {
-		// const { classes } = this.props;
+		const { classes, t } = this.props;
 		return (
 			<Grid container spacing={2}>
 				<Grid item xs={12}>
-					<Typography sx={classes.error}>Test 1</Typography>
-					{/* <Typography sx={'success'}>Test 1</Typography> */}
-					<Typography sx={classes.machin}>Test 1</Typography>
+					<Typography className={classes.error}>Test 1</Typography>
+					<Typography className={'success'}>Test 1</Typography>
+					<Typography className={'success'}>{t('test')}</Typography>
 					<Button variant='contained' onClick={this.goToPage2}>
 						<Tractor />
 						Test2
@@ -52,7 +31,12 @@ class Test1 extends React.Component<RouteComponentProps, ComponentState> {
 		);
 	}
 }
-
-// export default withStyles(styles)(withRouter(Test1));
-// export default withTranslation()(withStyles(styles)(withRouter(Test1)));
-export default withRouter(Test1);
+export default withTranslation()(
+	withStyles(withRouter(Test1), (theme) => {
+		return {
+			error: {
+				color: theme.status.error,
+			},
+		};
+	})
+);

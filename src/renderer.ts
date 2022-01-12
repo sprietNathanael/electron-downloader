@@ -29,7 +29,6 @@
 // import './index.css';
 
 // console.log('👋 This message is being logged by "renderer.js", included via webpack');
-import { DownloadEventFromFront, DownloadEventToFront } from './main/IPC/Apis/DownloadControlAPI';
 import './renderer/index';
 import { EventDescription, EventKey } from './utils/EventEmitter';
 
@@ -46,11 +45,7 @@ export interface IElectronAPI<EventToFront extends EventDescription, EventFromFr
 
 declare global {
 	interface Window {
-		ipcApi: {
-			downloadControl: IElectronAPI<DownloadEventToFront, DownloadEventFromFront>;
-		};
-		types: {
-			DownloadInfo: DownloadInfo;
-		};
+		ipcApi: {};
+		types: {};
 	}
 }
